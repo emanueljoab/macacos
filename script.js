@@ -9,7 +9,7 @@ function gerar(){
     img.setAttribute('width', '500px')
     img.setAttribute('height', '600px')
     if (aleatorio == ['Orangotango']) {
-        img.setAttribute('src', 'foto-orangotango.jpg')
+        img.setAttribute('src', 'foto-orangotango.jpeg')
     } else if (aleatorio == ['Chimpanzé']) {
         img.setAttribute('src', 'foto-chimpanze.jpg')
     } else if (aleatorio == ['Gorila']) {
