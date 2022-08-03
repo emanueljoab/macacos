@@ -17,7 +17,7 @@ function gerar(){
     } else if (aleatorio == ['Babuíno']) {
         img.setAttribute('src', 'foto-babuino.jpg')
     } else if (aleatorio == ['Macaco-aranha']) {
-        img.setAttribute('src', 'foto-macacoaranha.jpg')
+        img.setAttribute('src', 'foto-macacoaranha.png')
     } else {
         img.setAttribute('src', 'foto-macacoprego.jpg')
     }
