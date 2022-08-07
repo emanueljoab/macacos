@@ -2,12 +2,11 @@ let macaco = ['Orangotango', 'Chimpanzé', 'Gorila', 'Babuíno', 'Macaco-aranha'
 console.log(macaco)
 function gerar(){
     let aleatorio = macaco[Math.floor(Math.random() *macaco.length)];
-    res.innerHTML = `<strong>${aleatorio}</strong>`
+    res.innerHTML = `${aleatorio}`
     res.style.textAlign = 'center'
     var img = document.createElement('img')
     foto.innerHTML= ''
-    img.setAttribute('width', '500px')
-    img.setAttribute('height', '600px')
+    img.setAttribute('width', '100%')
     if (aleatorio == ['Orangotango']) {
         img.setAttribute('src', 'foto-orangotango.jpeg')
     } else if (aleatorio == ['Chimpanzé']) {
