@@ -1,4 +1,4 @@
-let macaco = ['Orangotango', 'Chimpanzé', 'Gorila', 'Babuíno', 'Macaco-aranha', 'Macaco-prego', 'Macaco-narigudo', 'Macaco-negro', 'Mico-leão-dourado', 'Macaco-da-noite', 'Bugio', 'Mandril', 'Macaco-preto-de-nariz-arrebitado', 'Gibão', 'Macaco-japonês', 'Langur-de-ouro', 'Sagui'];
+let macaco = ['Orangotango', 'Chimpanzé', 'Gorila', 'Babuíno', 'Macaco-aranha', 'Macaco-prego', 'Macaco-narigudo', 'Macaco-negro', 'Mico-leão-dourado', 'Macaco-da-noite', 'Bugio', 'Mandril', 'Macaco-preto-de-nariz-arrebitado', 'Gibão', 'Macaco-japonês', 'Langur-de-ouro', 'Sagui', 'Bonobo', 'Cairara-de-fronte-branca', 'Macaco-lesula'];
 
 function gerar() {
     let aleatorio = macaco[Math.floor(Math.random() * macaco.length)];
@@ -10,7 +10,7 @@ function gerar() {
     img.setAttribute('width', '100%');
 
     if (aleatorio == ['Orangotango']) {
-        img.setAttribute('src', 'foto-orangotango.jpeg');
+        img.setAttribute('src', 'foto-orangotango.jpg');
     } else if (aleatorio == ['Chimpanzé']) {
         img.setAttribute('src', 'foto-chimpanze.jpg');
     } else if (aleatorio == ['Gorila']) {
@@ -43,6 +43,12 @@ function gerar() {
         img.setAttribute('src', 'foto-langurdeouro.jpg');
     } else if (aleatorio == ['Sagui']) {
         img.setAttribute('src', 'foto-sagui.jpg');
+    } else if (aleatorio == ['Bonobo']) {
+        img.setAttribute('src', 'foto-bonobo.jpg');
+    } else if (aleatorio == ['Cairara-de-fronte-branca']) {
+        img.setAttribute('src', 'foto-cairaradefrontebranca.jpeg')
+    } else if (aleatorio == ['Macaco-lesula']) {
+        img.setAttribute('src', 'foto-macacolesula.jpg');
     }
 
     foto.appendChild(img);
