@@ -1,68 +1,116 @@
-const macacos = {
-    'Orangotango': 'foto-orangotango.jpg',
-    'Chimpanzé': 'foto-chimpanze.jpg',
-    'Gorila': 'foto-gorila.jpg',
-    'Babuíno': 'foto-babuino.jpg',
-    'Macaco-aranha': 'foto-macacoaranha.png',
-    'Macaco-prego': 'foto-macacoprego.jpg',
-    'Macaco-narigudo': 'foto-macaconarigudo.jpeg',
-    'Macaco-negro': 'foto-macaconegro.jpg',
-    'Mico-leão-dourado': 'foto-micoleaodourado.jpg',
-    'Macaco-da-noite': 'foto-macacodanoite.jpg',
-    'Bugio': 'foto-bugio.jpg',
-    'Mandril': 'foto-mandril.jpg',
-    'Macaco-preto-de-nariz-arrebitado': 'foto-macacopretodenarizarrebitado.jpg',
-    'Gibão': 'foto-gibao.jpg',
-    'Macaco-japonês': 'foto-macacojapones.jpg',
-    'Langur-de-ouro': 'foto-langurdeouro.jpg',
-    'Sagui': 'foto-sagui.jpg',
-    'Bonobo': 'foto-bonobo.jpg',
-    'Cairara-de-fronte-branca': 'foto-cairaradefrontebranca.jpeg',
-    'Macaco-lesula': 'foto-macacolesula.jpg',
-    'Gibão-cristado-de-Hainan': 'https://upload.wikimedia.org/wikipedia/commons/2/26/Nomascus_nasutus_hainanus.jpg',
-    'Macaco-prego-dourado': 'https://upload.wikimedia.org/wikipedia/commons/6/6d/S._flavius_SP_Zoo_3.jpg',
-    'Simpona': 'https://upload.wikimedia.org/wikipedia/commons/4/4f/Silky_Sifaka_Pink_Face_Closeup.JPG',
-    'Macaco-birmanês-de-nariz-empinado': 'https://upload.wikimedia.org/wikipedia/commons/e/e3/Drawing_of_Rhinopithecus_strykeri.jpg',
-    'Mico-leão-de-cara-preta': 'https://upload.wikimedia.org/wikipedia/commons/6/6f/Leontopithecus_caissara.jpg',
-    'Gorila-do-oriente': 'https://upload.wikimedia.org/wikipedia/commons/0/02/I%27m_sooooo_tired.jpg',
-    'Muriqui-do-norte': 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Northern_Muriqui_9.jpg',
-    'Mico-leão-preto': 'https://upload.wikimedia.org/wikipedia/commons/b/be/Mico_leao_preto_SP_Zoo.jpg',
-    'Kipunji': 'https://upload.wikimedia.org/wikipedia/commons/c/c0/Kipunji_walking_h.jpg',
-    'Muriqui-do-sul': 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Brachyteles_arachnoides.jpg',
-    'Gibão-de-topete': 'https://upload.wikimedia.org/wikipedia/commons/1/13/White_Cheeked_Gibbon_Male.jpg',
-    'Lóris-delgado-vermelho': 'https://upload.wikimedia.org/wikipedia/commons/1/1e/Loris_tardigradus_tardigradus_002.jpg',
-    'Colobo-vermelho-de-zanzibar': 'https://upload.wikimedia.org/wikipedia/commons/e/e4/Red_Colobus_7.jpg',
-    'Lêmure-do-alaotra': 'https://upload.wikimedia.org/wikipedia/commons/e/e3/Hapalemur_alaotrensis_JJLM.JPG',
-    'Gibão-prateado': 'https://upload.wikimedia.org/wikipedia/commons/6/60/Silbergibbon_mit_Nachwuchs.jpg',
-    'Langur-de-ouro': 'https://upload.wikimedia.org/wikipedia/commons/2/22/Golden_Langur.jpg',
-    'Lêmure-delicado-dourado': 'https://upload.wikimedia.org/wikipedia/commons/9/9f/Hapalemur_aureus_001.jpg',
-    'Sagui-de-cabeça-branca': 'https://upload.wikimedia.org/wikipedia/commons/8/89/Saguinus_oedipus_%28Linnaeus%2C_1758%29.jpg',
-    'Mico-leão-de-cara-dourada': 'https://upload.wikimedia.org/wikipedia/commons/4/44/Goldkopfloewenaeffchen1.jpg',
-    'Orangotango-de-sumatra': 'https://upload.wikimedia.org/wikipedia/commons/0/08/Who_you_lookin%27_at%3F.jpg',
-    'Macaco-de-gibraltar': 'https://upload.wikimedia.org/wikipedia/commons/4/40/Portrait_of_a_father.jpg',
-    'Langur-de-nilgiri': 'https://upload.wikimedia.org/wikipedia/commons/c/c2/Nilgiri_Langur.JPG',
-    'Orangotango-de-bornéu': 'https://upload.wikimedia.org/wikipedia/commons/d/d3/OrangutanP1.jpg',
-    'Gorila-do-ocidente': 'https://upload.wikimedia.org/wikipedia/commons/c/c0/Western_Lowland_Gorilla_at_Bronx_Zoo_2_cropped.jpg',
-    'Chimpanzé-comum': 'https://upload.wikimedia.org/wikipedia/commons/f/fc/Gombe_Stream_NP_Jungtier_fressend.jpg',
-    'Gelada': 'https://upload.wikimedia.org/wikipedia/commons/1/13/Gelada-Pavian.jpg',
-    'Gibão-de-müller-de-bornéu': 'https://upload.wikimedia.org/wikipedia/commons/a/a0/MuellersGibbon.jpg',
-    'Mico-ladrão-safado': 'foto-micoladraosafado.jpg'
-};
+const macacos = {};
 
-function gerar() {
-    const nomesMacacos = Object.keys(macacos);
-    const aleatorio = nomesMacacos[Math.floor(Math.random() * nomesMacacos.length)];
-    console.log(aleatorio);
-
-    const res = document.getElementById('res');
-    const foto = document.getElementById('foto');
-
-    res.innerHTML = aleatorio;
-
-    const img = document.createElement('img');
-    img.setAttribute('src', macacos[aleatorio]);
-    img.setAttribute('width', '100%');
-
-    foto.innerHTML= '';
-    foto.appendChild(img);
+async function fetchSpecies() {
+    const response = await fetch('https://api.gbif.org/v1/species/search?rank=SPECIES&highertaxon_key=798&limit=1000');
+    if (!response.ok) {
+        throw new Error(`Erro na requisição: ${response.statusText}`);
+    }
+    return await response.json();
 }
+
+async function fetchImage(speciesKey) {
+    const response = await fetch(`https://api.gbif.org/v1/occurrence/search?mediaType=StillImage&speciesKey=${speciesKey}&limit=1`);
+    if (!response.ok) {
+        throw new Error(`Erro na requisição: ${response.statusText}`);
+    }
+    const data = await response.json();
+    if (data.results && data.results[0] && data.results[0].media && data.results[0].media[0]) {
+        return data.results[0].media[0].identifier;
+    }
+    return null;
+}
+
+async function fetchVernacularNames(speciesKey) {
+    const response = await fetch(`https://api.gbif.org/v1/species/${speciesKey}/vernacularNames`);
+    if (!response.ok) {
+        throw new Error(`Erro na requisição: ${response.statusText}`);
+    }
+    return await response.json();
+}
+
+async function translateText(text, targetLang) {
+    const baseUrl = 'https://api-free.deepl.com/';
+    const url = `${baseUrl}?auth_key=${deepLApiKey}&text=${encodeURIComponent(text)}&target_lang=${targetLang}`;
+
+    try {
+        const response = await fetch(url, { method: 'POST' });
+        if (!response.ok) {
+            throw new Error(`Erro na tradução: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data.translations[0].text;
+    } catch (error) {
+        console.error('Erro ao traduzir texto:', error);
+        throw error;
+    }
+}
+
+async function fetchMacacos() {
+    try {
+        const speciesData = await fetchSpecies();
+        const promises = speciesData.results.map(async species => {
+            try {
+                const vernacularData = await fetchVernacularNames(species.key);
+                let vernacularName = null;
+
+                // Procurar por um nome vernacular em português
+                const portugueseVernacular = vernacularData.results.find(vernacular => vernacular.language === 'por');
+                if (portugueseVernacular) {
+                    vernacularName = portugueseVernacular.vernacularName;
+                    console.log(`Nome vernacular em português encontrado para a espécie com chave ${species.key}: ${vernacularName}`);
+                } else {
+                    // Se não houver nome em português, usar o nome em inglês
+                    const englishVernacular = vernacularData.results.find(vernacular => vernacular.language === 'eng');
+                    if (englishVernacular) {
+                        vernacularName = englishVernacular.vernacularName;
+                        console.log(`Nome vernacular em inglês utilizado para a espécie com chave ${species.key}: ${vernacularName}`);
+                    }
+                }
+
+                // Se encontramos um nome vernacular, adicionamos ao objeto macacos
+                if (vernacularName) {
+                    const imageUrl = await fetchImage(species.key);
+                    if (imageUrl) {
+                        macacos[vernacularName] = imageUrl;
+                    }
+                }
+            } catch (error) {
+                console.error(`Erro ao obter nomes vernaculares para a espécie com chave ${species.key}:`, error);
+            }
+        });
+        await Promise.all(promises);
+    } catch (error) {
+        console.error("Erro ao buscar espécies de macacos:", error);
+    }
+}
+
+async function gerar() {
+    const res = document.getElementById('res');
+    res.innerHTML = 'Obtendo macacos...';
+
+    try {
+        if (Object.keys(macacos).length === 0) {
+            await fetchMacacos();
+        }
+        const nomesMacacos = Object.keys(macacos);
+        const aleatorio = nomesMacacos[Math.floor(Math.random() * nomesMacacos.length)];
+        console.log(aleatorio);
+
+        res.innerHTML = aleatorio;
+
+        const foto = document.getElementById('foto');
+        const img = document.createElement('img');
+        img.setAttribute('src', macacos[aleatorio]);
+        img.setAttribute('width', '100%');
+
+        foto.innerHTML = '';
+        foto.appendChild(img);
+    } catch (error) {
+        console.error("Erro ao gerar macaco:", error);
+        res.innerHTML = 'Erro ao obter macacos';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    await fetchMacacos();
+});
