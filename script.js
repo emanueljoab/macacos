@@ -73,7 +73,7 @@ async function gerar() {
 
     try {
         // Gera um offset aleatório para a página a ser buscada
-        const offset = Math.floor(Math.random() * 1000);
+        const offset = Math.floor(Math.random() * 2000);
         if (Object.keys(macacos).length === 0) {
             await fetchMacacos(offset);
         }
