@@ -1,6 +1,14 @@
 const macacos = {};
 
-async function fetchSpecies(offset = 0) {
+// Lista de famílias que pertencem à infraordem Simiiformes
+const familiasSimiiformes = [
+    'Cebidae', 'Cercopithecidae', 'Hominidae', 
+    'Hylobatidae', 'Pitheciidae', 'Aotidae', 
+    'Atelidae', 'Callitrichidae'
+];
+
+// Fetch all species in the order "Primates"
+async function fetchPrimatesSpecies(offset = 0) {
     const response = await fetch(`https://api.gbif.org/v1/species/search?rank=SPECIES&highertaxon_key=798&limit=1000&offset=${offset}`);
     if (!response.ok) {
         throw new Error(`Erro na requisição: ${response.statusText}`);
@@ -30,8 +38,13 @@ async function fetchVernacularNames(speciesKey) {
 
 async function fetchMacacos(offset) {
     try {
-        const speciesData = await fetchSpecies(offset);
+        const speciesData = await fetchPrimatesSpecies(offset);
         const promises = speciesData.results.map(async species => {
+            // Filtrar apenas as espécies pertencentes às famílias de macacos
+            if (!familiasSimiiformes.includes(species.family)) {
+                return;
+            }
+
             try {
                 const vernacularData = await fetchVernacularNames(species.key);
                 let vernacularName = null;
@@ -73,7 +86,7 @@ async function gerar() {
 
     try {
         // Gera um offset aleatório para a página a ser buscada
-        const offset = Math.floor(Math.random() * 2000);
+        const offset = Math.floor(Math.random() * 1000);
         if (Object.keys(macacos).length === 0) {
             await fetchMacacos(offset);
         }
@@ -95,3 +108,4 @@ async function gerar() {
         res.innerHTML = 'Erro ao obter macacos';
     }
 }
+
