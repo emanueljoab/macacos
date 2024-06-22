@@ -69,7 +69,7 @@ async function fetchMacacos(offset) {
 
 async function gerar() {
     const res = document.getElementById('res');
-    res.innerHTML = 'Obtendo macacos...';
+    res.innerHTML = 'Caçando macaco<span id="animating-dots"></span>';
 
     try {
         // Gera um offset aleatório para a página a ser buscada
