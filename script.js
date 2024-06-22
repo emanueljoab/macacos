@@ -1,7 +1,7 @@
 const macacos = {};
 
-async function fetchSpecies() {
-    const response = await fetch('https://api.gbif.org/v1/species/search?rank=SPECIES&highertaxon_key=798&limit=1000');
+async function fetchSpecies(offset = 0) {
+    const response = await fetch(`https://api.gbif.org/v1/species/search?rank=SPECIES&highertaxon_key=798&limit=1000&offset=${offset}`);
     if (!response.ok) {
         throw new Error(`Erro na requisição: ${response.statusText}`);
     }
@@ -28,26 +28,9 @@ async function fetchVernacularNames(speciesKey) {
     return await response.json();
 }
 
-async function translateText(text, targetLang) {
-    const baseUrl = 'https://api-free.deepl.com/';
-    const url = `${baseUrl}?auth_key=${deepLApiKey}&text=${encodeURIComponent(text)}&target_lang=${targetLang}`;
-
+async function fetchMacacos(offset) {
     try {
-        const response = await fetch(url, { method: 'POST' });
-        if (!response.ok) {
-            throw new Error(`Erro na tradução: ${response.statusText}`);
-        }
-        const data = await response.json();
-        return data.translations[0].text;
-    } catch (error) {
-        console.error('Erro ao traduzir texto:', error);
-        throw error;
-    }
-}
-
-async function fetchMacacos() {
-    try {
-        const speciesData = await fetchSpecies();
+        const speciesData = await fetchSpecies(offset);
         const promises = speciesData.results.map(async species => {
             try {
                 const vernacularData = await fetchVernacularNames(species.key);
@@ -89,8 +72,10 @@ async function gerar() {
     res.innerHTML = 'Obtendo macacos...';
 
     try {
+        // Gera um offset aleatório para a página a ser buscada
+        const offset = Math.floor(Math.random() * 1000);
         if (Object.keys(macacos).length === 0) {
-            await fetchMacacos();
+            await fetchMacacos(offset);
         }
         const nomesMacacos = Object.keys(macacos);
         const aleatorio = nomesMacacos[Math.floor(Math.random() * nomesMacacos.length)];
@@ -110,7 +95,3 @@ async function gerar() {
         res.innerHTML = 'Erro ao obter macacos';
     }
 }
-
-document.addEventListener('DOMContentLoaded', async () => {
-    await fetchMacacos();
-});
